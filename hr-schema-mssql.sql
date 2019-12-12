@@ -3,24 +3,27 @@
 **************************************************************** */
 
 CREATE TABLE regions (
-    region_id INT IDENTITY(1,1) PRIMARY KEY,
+    region_id INT PRIMARY KEY,
     region_name VARCHAR (25) DEFAULT NULL
 );
+GO
  
 CREATE TABLE countries (
     country_id CHAR (2) PRIMARY KEY,
     country_name VARCHAR (40) DEFAULT NULL,
     region_id INT NOT NULL
 );
+GO
  
 CREATE TABLE locations (
-    location_id INT IDENTITY(1,1) PRIMARY KEY,
+    location_id INT PRIMARY KEY,
     street_address VARCHAR (40) DEFAULT NULL,
     postal_code VARCHAR (12) DEFAULT NULL,
     city VARCHAR (30) NOT NULL,
     state_province VARCHAR (25) DEFAULT NULL,
     country_id CHAR (2) NOT NULL
 );
+GO
 
 CREATE TABLE jobs (
     job_id VARCHAR (10) PRIMARY KEY,
@@ -28,13 +31,15 @@ CREATE TABLE jobs (
     min_salary DECIMAL (8, 0) DEFAULT NULL,
     max_salary DECIMAL (8, 0) DEFAULT NULL
 );
+GO
  
 CREATE TABLE departments (
-    department_id INT IDENTITY(1,1) PRIMARY KEY,
+    department_id INT PRIMARY KEY,
     department_name VARCHAR (30) NOT NULL,
     manager_id INT DEFAULT NULL,
     location_id INT DEFAULT NULL
 );
+GO
 
 CREATE TABLE employees (
     employee_id INT PRIMARY KEY,
@@ -49,14 +54,17 @@ CREATE TABLE employees (
     manager_id INT DEFAULT NULL,
     department_id INT DEFAULT NULL
 );
+GO
 
 CREATE TABLE job_history (
-	employee_id INT NOT NULL UNIQUE,
-	start_date DATE NOT NULL UNIQUE,
+	employee_id INT NOT NULL,
+	start_date DATE NOT NULL,
 	end_date DATE NOT NULL,
 	job_id VARCHAR(10) NOT NULL,
-	department_id INT NOT NULL
+	department_id INT NOT NULL,
+	PRIMARY KEY (employee_id, start_date)
 );
+GO
 
 CREATE VIEW emp_details_view
 AS
@@ -87,208 +95,192 @@ WHERE e.department_id = d.department_id
 	AND l.country_id = c.country_id
 	AND c.region_id = r.region_id
 	AND j.job_id = e.job_id;
+GO
 
 /* *************************************************************** 
 ***************************INSERTING DATA*************************
 **************************************************************** */
 
 /*Data for the table regions */
-SET IDENTITY_INSERT regions ON; 
-INSERT INTO regions
-VALUES (
-	1,
-	'Europe'
-	);
-
-INSERT INTO regions
-VALUES (
-	2,
-	'Americas'
-	);
-
-INSERT INTO regions
-VALUES (
-	3,
-	'Asia'
-	);
-
-INSERT INTO regions
-VALUES (
-	4,
-	'Middle East and Africa'
-	);
-SET IDENTITY_INSERT regions OFF;  
+INSERT INTO 
+    dbo.regions 
+values 
+    (1, 'Europe'),
+    (2, 'Americas'),
+    (3, 'Asia'),
+    (4, 'Middle East and Africa');
+GO 
  
 /*Data for the table countries */
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'IT',
 	'Italy',
 	1
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'JP',
 	'Japan',
 	3
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'US',
 	'United States of America',
 	2
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'CA',
 	'Canada',
 	2
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'CN',
 	'China',
 	3
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'IN',
 	'India',
 	3
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'AU',
 	'Australia',
 	3
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'ZW',
 	'Zimbabwe',
 	4
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'SG',
 	'Singapore',
 	3
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'UK',
 	'United Kingdom',
 	1
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'FR',
 	'France',
 	1
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'DE',
 	'Germany',
 	1
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'ZM',
 	'Zambia',
 	4
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'EG',
 	'Egypt',
 	4
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'BR',
 	'Brazil',
 	2
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'CH',
 	'Switzerland',
 	1
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'NL',
 	'Netherlands',
 	1
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'MX',
 	'Mexico',
 	2
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'KW',
 	'Kuwait',
 	4
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'IL',
 	'Israel',
 	4
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'DK',
 	'Denmark',
 	1
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'HK',
 	'HongKong',
 	3
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'NG',
 	'Nigeria',
 	4
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'AR',
 	'Argentina',
 	2
 	);
 
-INSERT INTO countries
+INSERT INTO dbo.countries
 VALUES (
 	'BE',
 	'Belgium',
@@ -296,8 +288,7 @@ VALUES (
 	);
 
 /*Data for the table locations */
-SET IDENTITY_INSERT locations ON;
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1000,
 	'1297 Via Cola di Rie',
@@ -307,7 +298,7 @@ VALUES (
 	'IT'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1100,
 	'93091 Calle della Testa',
@@ -317,7 +308,7 @@ VALUES (
 	'IT'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1200,
 	'2017 Shinjuku-ku',
@@ -327,7 +318,7 @@ VALUES (
 	'JP'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1300,
 	'9450 Kamiya-cho',
@@ -337,7 +328,7 @@ VALUES (
 	'JP'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1400,
 	'2014 Jabberwocky Rd',
@@ -347,7 +338,7 @@ VALUES (
 	'US'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1500,
 	'2011 Interiors Blvd',
@@ -357,7 +348,7 @@ VALUES (
 	'US'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1600,
 	'2007 Zagora St',
@@ -367,7 +358,7 @@ VALUES (
 	'US'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1700,
 	'2004 Charade Rd',
@@ -377,7 +368,7 @@ VALUES (
 	'US'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1800,
 	'147 Spadina Ave',
@@ -387,7 +378,7 @@ VALUES (
 	'CA'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	1900,
 	'6092 Boxwood St',
@@ -397,7 +388,7 @@ VALUES (
 	'CA'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2000,
 	'40-5-12 Laogianggen',
@@ -407,7 +398,7 @@ VALUES (
 	'CN'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2100,
 	'1298 Vileparle (E)',
@@ -417,7 +408,7 @@ VALUES (
 	'IN'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2200,
 	'12-98 Victoria Street',
@@ -427,7 +418,7 @@ VALUES (
 	'AU'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2300,
 	'198 Clementi North',
@@ -437,7 +428,7 @@ VALUES (
 	'SG'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2400,
 	'8204 Arthur St',
@@ -447,7 +438,7 @@ VALUES (
 	'UK'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2500,
 	'Magdalen Centre, The Oxford Science Park',
@@ -457,7 +448,7 @@ VALUES (
 	'UK'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2600,
 	'9702 Chester Road',
@@ -467,7 +458,7 @@ VALUES (
 	'UK'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2700,
 	'Schwanthalerstr. 7031',
@@ -477,7 +468,7 @@ VALUES (
 	'DE'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2800,
 	'Rua Frei Caneca 1360 ',
@@ -487,7 +478,7 @@ VALUES (
 	'BR'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	2900,
 	'20 Rue des Corps-Saints',
@@ -497,7 +488,7 @@ VALUES (
 	'CH'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	3000,
 	'Murtenstrasse 921',
@@ -507,7 +498,7 @@ VALUES (
 	'CH'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	3100,
 	'Pieter Breughelstraat 837',
@@ -517,7 +508,7 @@ VALUES (
 	'NL'
 	);
 
-INSERT INTO locations
+INSERT INTO dbo.locations
 VALUES (
 	3200,
 	'Mariano Escobedo 9991',
@@ -526,10 +517,9 @@ VALUES (
 	'Distrito Federal,',
 	'MX'
 	);
-SET IDENTITY_INSERT locations OFF;
  
 /*Data for the table jobs */
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'AD_PRES',
 	'President',
@@ -537,7 +527,7 @@ VALUES (
 	40000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'AD_VP',
 	'Administration Vice President',
@@ -545,7 +535,7 @@ VALUES (
 	30000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'AD_ASST',
 	'Administration Assistant',
@@ -553,7 +543,7 @@ VALUES (
 	6000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'FI_MGR',
 	'Finance Manager',
@@ -561,7 +551,7 @@ VALUES (
 	16000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'FI_ACCOUNT',
 	'Accountant',
@@ -569,7 +559,7 @@ VALUES (
 	9000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'AC_MGR',
 	'Accounting Manager',
@@ -577,7 +567,7 @@ VALUES (
 	16000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'AC_ACCOUNT',
 	'Public Accountant',
@@ -585,7 +575,7 @@ VALUES (
 	9000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'SA_MAN',
 	'Sales Manager',
@@ -593,7 +583,7 @@ VALUES (
 	20000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'SA_REP',
 	'Sales Representative',
@@ -601,7 +591,7 @@ VALUES (
 	12000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'PU_MAN',
 	'Purchasing Manager',
@@ -609,7 +599,7 @@ VALUES (
 	15000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'PU_CLERK',
 	'Purchasing Clerk',
@@ -617,7 +607,7 @@ VALUES (
 	5500
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'ST_MAN',
 	'Stock Manager',
@@ -625,7 +615,7 @@ VALUES (
 	8500
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'ST_CLERK',
 	'Stock Clerk',
@@ -633,7 +623,7 @@ VALUES (
 	5000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'SH_CLERK',
 	'Shipping Clerk',
@@ -641,7 +631,7 @@ VALUES (
 	5500
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'IT_PROG',
 	'Programmer',
@@ -649,7 +639,7 @@ VALUES (
 	10000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'MK_MAN',
 	'Marketing Manager',
@@ -657,7 +647,7 @@ VALUES (
 	15000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'MK_REP',
 	'Marketing Representative',
@@ -665,7 +655,7 @@ VALUES (
 	9000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'HR_REP',
 	'Human Resources Representative',
@@ -673,7 +663,7 @@ VALUES (
 	9000
 	);
 
-INSERT INTO jobs
+INSERT INTO dbo.jobs
 VALUES (
 	'PR_REP',
 	'Public Relations Representative',
@@ -682,8 +672,7 @@ VALUES (
 	);
  
 /*Data for the table departments */
-SET IDENTITY_INSERT departments ON;
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	10,
 	'Administration',
@@ -691,7 +680,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	20,
 	'Marketing',
@@ -699,7 +688,7 @@ VALUES (
 	1800
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	30,
 	'Purchasing',
@@ -707,7 +696,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	40,
 	'Human Resources',
@@ -715,7 +704,7 @@ VALUES (
 	2400
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	50,
 	'Shipping',
@@ -723,7 +712,7 @@ VALUES (
 	1500
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	60,
 	'IT',
@@ -731,7 +720,7 @@ VALUES (
 	1400
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	70,
 	'Public Relations',
@@ -739,7 +728,7 @@ VALUES (
 	2700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	80,
 	'Sales',
@@ -747,7 +736,7 @@ VALUES (
 	2500
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	90,
 	'Executive',
@@ -755,7 +744,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	100,
 	'Finance',
@@ -763,7 +752,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	110,
 	'Accounting',
@@ -771,7 +760,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	120,
 	'Treasury',
@@ -779,7 +768,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	130,
 	'Corporate Tax',
@@ -787,7 +776,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	140,
 	'Control And Credit',
@@ -795,7 +784,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	150,
 	'Shareholder Services',
@@ -803,7 +792,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	160,
 	'Benefits',
@@ -811,7 +800,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	170,
 	'Manufacturing',
@@ -819,7 +808,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	180,
 	'Construction',
@@ -827,7 +816,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	190,
 	'Contracting',
@@ -835,7 +824,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	200,
 	'Operations',
@@ -843,7 +832,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	210,
 	'IT Support',
@@ -851,7 +840,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	220,
 	'NOC',
@@ -859,7 +848,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	230,
 	'IT Helpdesk',
@@ -867,7 +856,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	240,
 	'Government Sales',
@@ -875,7 +864,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	250,
 	'Retail Sales',
@@ -883,7 +872,7 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	260,
 	'Recruiting',
@@ -891,19 +880,16 @@ VALUES (
 	1700
 	);
 
-INSERT INTO departments
+INSERT INTO dbo.departments
 VALUES (
 	270,
 	'Payroll',
 	NULL,
 	1700
 	);
-SET IDENTITY_INSERT departments OFF;
- 
  
 /*Data for the table employees */
-SET IDENTITY_INSERT employees ON;
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	100,
 	'Steven',
@@ -918,7 +904,7 @@ VALUES (
 	90
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	101,
 	'Neena',
@@ -933,7 +919,7 @@ VALUES (
 	90
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	102,
 	'Lex',
@@ -948,7 +934,7 @@ VALUES (
 	90
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	103,
 	'Alexander',
@@ -963,7 +949,7 @@ VALUES (
 	60
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	104,
 	'Bruce',
@@ -978,7 +964,7 @@ VALUES (
 	60
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	105,
 	'David',
@@ -993,7 +979,7 @@ VALUES (
 	60
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	106,
 	'Valli',
@@ -1008,7 +994,7 @@ VALUES (
 	60
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	107,
 	'Diana',
@@ -1023,7 +1009,7 @@ VALUES (
 	60
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	108,
 	'Nancy',
@@ -1038,7 +1024,7 @@ VALUES (
 	100
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	109,
 	'Daniel',
@@ -1053,7 +1039,7 @@ VALUES (
 	100
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	110,
 	'John',
@@ -1068,7 +1054,7 @@ VALUES (
 	100
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	111,
 	'Ismael',
@@ -1083,7 +1069,7 @@ VALUES (
 	100
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	112,
 	'Jose Manuel',
@@ -1098,7 +1084,7 @@ VALUES (
 	100
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	113,
 	'Luis',
@@ -1113,7 +1099,7 @@ VALUES (
 	100
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	114,
 	'Den',
@@ -1128,7 +1114,7 @@ VALUES (
 	30
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	115,
 	'Alexander',
@@ -1143,7 +1129,7 @@ VALUES (
 	30
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	116,
 	'Shelli',
@@ -1158,7 +1144,7 @@ VALUES (
 	30
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	117,
 	'Sigal',
@@ -1173,7 +1159,7 @@ VALUES (
 	30
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	118,
 	'Guy',
@@ -1188,7 +1174,7 @@ VALUES (
 	30
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	119,
 	'Karen',
@@ -1203,7 +1189,7 @@ VALUES (
 	30
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	120,
 	'Matthew',
@@ -1218,7 +1204,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	121,
 	'Adam',
@@ -1233,7 +1219,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	122,
 	'Payam',
@@ -1248,7 +1234,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	123,
 	'Shanta',
@@ -1263,7 +1249,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	124,
 	'Kevin',
@@ -1278,7 +1264,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	125,
 	'Julia',
@@ -1293,7 +1279,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	126,
 	'Irene',
@@ -1308,7 +1294,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	127,
 	'James',
@@ -1323,7 +1309,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	128,
 	'Steven',
@@ -1338,7 +1324,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	129,
 	'Laura',
@@ -1353,7 +1339,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	130,
 	'Mozhe',
@@ -1368,7 +1354,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	131,
 	'James',
@@ -1383,7 +1369,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	132,
 	'TJ',
@@ -1398,7 +1384,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	133,
 	'Jason',
@@ -1413,7 +1399,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	134,
 	'Michael',
@@ -1428,7 +1414,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	135,
 	'Ki',
@@ -1443,7 +1429,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	136,
 	'Hazel',
@@ -1458,7 +1444,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	137,
 	'Renske',
@@ -1473,7 +1459,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	138,
 	'Stephen',
@@ -1488,7 +1474,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	139,
 	'John',
@@ -1503,7 +1489,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	140,
 	'Joshua',
@@ -1518,7 +1504,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	141,
 	'Trenna',
@@ -1533,7 +1519,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	142,
 	'Curtis',
@@ -1548,7 +1534,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	143,
 	'Randall',
@@ -1563,7 +1549,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	144,
 	'Peter',
@@ -1578,7 +1564,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	145,
 	'John',
@@ -1593,7 +1579,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	146,
 	'Karen',
@@ -1608,7 +1594,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	147,
 	'Alberto',
@@ -1623,7 +1609,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	148,
 	'Gerald',
@@ -1638,7 +1624,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	149,
 	'Eleni',
@@ -1653,7 +1639,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	150,
 	'Peter',
@@ -1668,7 +1654,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	151,
 	'David',
@@ -1683,7 +1669,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	152,
 	'Peter',
@@ -1698,7 +1684,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	153,
 	'Christopher',
@@ -1713,7 +1699,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	154,
 	'Nanette',
@@ -1728,7 +1714,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	155,
 	'Oliver',
@@ -1743,7 +1729,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	156,
 	'Janette',
@@ -1758,7 +1744,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	157,
 	'Patrick',
@@ -1773,7 +1759,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	158,
 	'Allan',
@@ -1788,7 +1774,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	159,
 	'Lindsey',
@@ -1803,7 +1789,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	160,
 	'Louise',
@@ -1818,7 +1804,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	161,
 	'Sarath',
@@ -1833,7 +1819,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	162,
 	'Clara',
@@ -1848,7 +1834,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	163,
 	'Danielle',
@@ -1863,7 +1849,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	164,
 	'Mattea',
@@ -1878,7 +1864,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	165,
 	'David',
@@ -1893,7 +1879,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	166,
 	'Sundar',
@@ -1908,7 +1894,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	167,
 	'Amit',
@@ -1923,7 +1909,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	168,
 	'Lisa',
@@ -1938,7 +1924,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	169,
 	'Harrison',
@@ -1953,7 +1939,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	170,
 	'Tayler',
@@ -1968,7 +1954,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	171,
 	'William',
@@ -1983,7 +1969,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	172,
 	'Elizabeth',
@@ -1998,7 +1984,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	173,
 	'Sundita',
@@ -2013,7 +1999,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	174,
 	'Ellen',
@@ -2028,7 +2014,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	175,
 	'Alyssa',
@@ -2043,7 +2029,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	176,
 	'Jonathon',
@@ -2058,7 +2044,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	177,
 	'Jack',
@@ -2073,7 +2059,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	178,
 	'Kimberely',
@@ -2088,7 +2074,7 @@ VALUES (
 	NULL
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	179,
 	'Charles',
@@ -2103,7 +2089,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	180,
 	'Winston',
@@ -2118,7 +2104,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	181,
 	'Jean',
@@ -2133,7 +2119,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	182,
 	'Martha',
@@ -2148,7 +2134,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	183,
 	'Girard',
@@ -2163,7 +2149,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	184,
 	'Nandita',
@@ -2178,7 +2164,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	185,
 	'Alexis',
@@ -2193,7 +2179,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	186,
 	'Julia',
@@ -2208,7 +2194,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	187,
 	'Anthony',
@@ -2223,7 +2209,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	188,
 	'Kelly',
@@ -2238,7 +2224,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	189,
 	'Jennifer',
@@ -2253,7 +2239,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	190,
 	'Timothy',
@@ -2268,7 +2254,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	191,
 	'Randall',
@@ -2283,7 +2269,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	192,
 	'Sarah',
@@ -2298,7 +2284,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	193,
 	'Britney',
@@ -2313,7 +2299,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	194,
 	'Samuel',
@@ -2328,7 +2314,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	195,
 	'Vance',
@@ -2343,7 +2329,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	196,
 	'Alana',
@@ -2358,7 +2344,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	197,
 	'Kevin',
@@ -2373,7 +2359,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	198,
 	'Donald',
@@ -2388,7 +2374,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	199,
 	'Douglas',
@@ -2403,7 +2389,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	200,
 	'Jennifer',
@@ -2418,7 +2404,7 @@ VALUES (
 	10
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	201,
 	'Michael',
@@ -2433,7 +2419,7 @@ VALUES (
 	20
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	202,
 	'Pat',
@@ -2448,7 +2434,7 @@ VALUES (
 	20
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	203,
 	'Susan',
@@ -2463,7 +2449,7 @@ VALUES (
 	40
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	204,
 	'Hermann',
@@ -2478,7 +2464,7 @@ VALUES (
 	70
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	205,
 	'Shelley',
@@ -2493,7 +2479,7 @@ VALUES (
 	110
 	);
 
-INSERT INTO employees
+INSERT INTO dbo.employees
 VALUES (
 	206,
 	'William',
@@ -2507,10 +2493,9 @@ VALUES (
 	205,
 	110
 	);
-SET IDENTITY_INSERT employees OFF;
  
 /*Data for the table dependents */
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	102,
 	CONVERT(datetime, '13-Jan-1993'),
@@ -2519,7 +2504,7 @@ VALUES (
 	60
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	101,
 	CONVERT(datetime, '21-Sep-1989'),
@@ -2528,7 +2513,7 @@ VALUES (
 	110
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	101,
 	CONVERT(datetime, '28-Oct-1993'),
@@ -2537,7 +2522,7 @@ VALUES (
 	110
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	201,
 	CONVERT(datetime, '27-Feb-1996'),
@@ -2546,7 +2531,7 @@ VALUES (
 	20
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	114,
 	CONVERT(datetime, '24-Mar-1998'),
@@ -2555,7 +2540,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	122,
 	CONVERT(datetime, '01-Jan-1999'),
@@ -2564,7 +2549,7 @@ VALUES (
 	50
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	200,
 	CONVERT(datetime, '17-Sep-1987'),
@@ -2573,7 +2558,7 @@ VALUES (
 	90
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	176,
 	CONVERT(datetime, '24-Mar-1998'),
@@ -2582,7 +2567,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	176,
 	CONVERT(datetime, '01-Jan-1999'),
@@ -2591,7 +2576,7 @@ VALUES (
 	80
 	);
 
-INSERT INTO job_history
+INSERT INTO dbo.job_history
 VALUES (
 	200,
 	CONVERT(datetime, '01-Jul-1994'),
